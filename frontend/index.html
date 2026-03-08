@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COE892 Cryptocurrency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>COE892 Decentralized Cryptocurrency</h1>
+      <p class="tagline">Distributed and Cloud Computing (W2026) — P2P blockchain · FastAPI, gRPC, RabbitMQ</p>
+      <div class="api-status" id="apiStatus">Checking API…</div>
+    </header>
+
+    <main class="main">
+      <section class="card wallet-card card-ledger">
+        <span class="role-badge role-ledger">Ledger</span>
+        <h2>Wallet</h2>
+        <div class="wallet-actions">
+          <label>Your address</label>
+          <div class="row">
+            <input type="text" id="myAddress" placeholder="e.g. alice" readonly>
+            <button type="button" id="copyAddress">Copy</button>
+          </div>
+          <button type="button" id="newAddress" class="btn secondary">Generate new address</button>
+        </div>
+        <div class="balance-row">
+          <span>Balance</span>
+          <strong id="balance">—</strong>
+        </div>
+      </section>
+
+      <section class="card send-card card-crypto">
+        <span class="role-badge role-crypto">🔐 Cryptography</span>
+        <h2>Send</h2>
+        <div class="crypto-callout">
+          <strong>Signed transactions (Ed25519)</strong> — Your send is cryptographically signed so only you can authorize it. The network verifies the signature before accepting the transaction.
+        </div>
+        <form id="sendForm">
+          <label>To address</label>
+          <input type="text" id="toAddress" placeholder="Receiver address" required>
+          <label>Amount</label>
+          <input type="number" id="amount" placeholder="0" min="0.01" step="0.01" required>
+          <button type="submit" class="btn primary">Send</button>
+        </form>
+        <div id="sendResult" class="result"></div>
+      </section>
+
+      <section class="card mine-card card-ledger">
+        <span class="role-badge role-ledger">Ledger</span>
+        <h2>Mine block</h2>
+        <p class="hint">Mine pending transactions (proof-of-work). Reward: 10 coins.</p>
+        <button type="button" id="mineBtn" class="btn primary">Mine block</button>
+        <div id="mineResult" class="result"></div>
+      </section>
+
+      <section class="card chain-card card-ledger">
+        <span class="role-badge role-ledger">Ledger</span>
+        <h2>Blockchain</h2>
+        <div class="chain-meta">
+          <span>Length: <strong id="chainLength">0</strong></span>
+          <button type="button" id="refreshChain" class="btn small">Refresh</button>
+        </div>
+        <div class="block-list" id="blockList"></div>
+      </section>
+
+      <section class="card tx-card card-integration">
+        <span class="role-badge role-integration">Transaction viewer</span>
+        <h2>Pending transactions</h2>
+        <p class="hint">Signed transactions show <span class="signed-demo">✓ Signed</span> (Cryptography).</p>
+        <div class="tx-list" id="pendingList"></div>
+      </section>
+
+      <section class="card security-demos-card card-crypto">
+        <span class="role-badge role-crypto">Security demos</span>
+        <h2>When the system says &ldquo;no&rdquo;</h2>
+        <p class="hint">Demonstrate that invalid or tampered data is rejected.</p>
+        <div class="demo-scenario demo-invalid-sig">
+          <strong>1. Invalid signature</strong>
+          <p>We send a forged transaction (signature for amount 1, but claim amount 100). The server verifies and rejects it.</p>
+          <div class="demo-flow" id="demoFlow">
+            <span class="demo-step" id="demoStep1">1. Send forged tx</span>
+            <span class="demo-arrow">→</span>
+            <span class="demo-step" id="demoStep2">2. Server verifies</span>
+            <span class="demo-arrow">→</span>
+            <span class="demo-step" id="demoStep3">3. Result</span>
+          </div>
+          <button type="button" id="demoInvalidSigBtn" class="btn secondary">Try invalid signature</button>
+          <div class="demo-result-box" id="demoInvalidSigBox">
+            <div class="demo-result-icon" id="demoInvalidSigIcon"></div>
+            <div class="demo-result-text">
+              <strong id="demoInvalidSigTitle">—</strong>
+              <p id="demoInvalidSigDetail"></p>
+            </div>
+          </div>
+        </div>
+        <div class="demo-scenario">
+          <strong>2. Tampered chain</strong>
+          <p>If someone edits <code>backend/data/chain.json</code> and changes an amount in a block, the chain becomes invalid. Refresh this page — the status at the top will show the chain is no longer valid.</p>
+        </div>
+        <div class="demo-scenario">
+          <strong>3. Insufficient balance</strong>
+          <p>Try sending more than your balance (e.g. send 1000 with balance 10). The request is rejected with &ldquo;Insufficient balance&rdquo;.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>COE892 W2026 — Decentralized Network System for Cryptocurrency · Singh, Grewal, Suresh, Bhatti</p>
+    </footer>
+  </div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
